@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "690610059154",
+    "project_id": "antherstealth",
+    "storage_bucket": "antherstealth.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:690610059154:android:34fa8c1e59ba5c7a2c734b",
+        "android_client_info": {
+          "package_name": "com.anther.learn"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4WWvQs8A1l9v4SDxSbf6fqAGU17WpH3A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
