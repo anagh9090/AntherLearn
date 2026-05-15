@@ -73,29 +73,19 @@ class _AntherAcademyUIState extends State<AntherAcademyUI> {
     _loadFromTxt();
   }
 
-  // PARSING RAW TXT FILE INTO CHAPTERS
   Future<void> _loadFromTxt() async {
     try {
       final String fullText = await rootBundle.loadString('assets/book_content.txt');
-      
-      // We split the text every time we see "Chapter" at the start of a line
       final RegExp chapterRegex = RegExp(r'(?=Chapter\s+\d+:)');
       final List<String> parts = fullText.split(chapterRegex);
-      
-      List<Map<String, String>> parsedLessons = [];
 
+      List<Map<String, String>> parsedLessons = [];
       for (var part in parts) {
         if (part.trim().isEmpty) continue;
-
-        // Extract the first line as title, rest as content
         List<String> lines = part.trim().split('\n');
         String title = lines[0];
         String content = lines.sublist(1).join('\n').trim();
-
-        parsedLessons.add({
-          "t": title,
-          "c": content,
-        });
+        parsedLessons.add({"t": title, "c": content});
       }
 
       setState(() {
@@ -140,16 +130,16 @@ class _AntherAcademyUIState extends State<AntherAcademyUI> {
           ),
           const SizedBox(height: 20),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            if (currentPage > 0) 
+            if (currentPage > 0)
               OutlinedButton(
-                onPressed: () => setState(() => currentPage--), 
+                onPressed: () => setState(() => currentPage--),
                 style: OutlinedButton.styleFrom(side: const BorderSide(color: Colors.greenAccent)),
                 child: const Text("PREV", style: TextStyle(color: Colors.greenAccent)),
               ),
             const SizedBox(width: 20),
-            if (currentPage < lessons.length - 1) 
+            if (currentPage < lessons.length - 1)
               ElevatedButton(
-                onPressed: () => setState(() => currentPage++), 
+                onPressed: () => setState(() => currentPage++),
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.greenAccent),
                 child: const Text("NEXT", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
               ),
@@ -172,7 +162,7 @@ class _TerminalChatUIState extends State<TerminalChatUI> {
   final ScrollController _scrollController = ScrollController();
   final FocusNode _focusNode = FocusNode();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  
+
   List<String> logs = ["AntherOS TTY1 - Secure Link", "Ready..."];
   bool isAuthenticated = false;
   bool isWaitingForPass = false;
@@ -201,18 +191,26 @@ class _TerminalChatUIState extends State<TerminalChatUI> {
       } else {
         setState(() { logs.add("[AUTH] Denied."); isWaitingForPass = false; });
       }
-    } 
+    }
     else if (cmd.startsWith("set-alias ")) {
       String name = cmd.replaceFirst("set-alias ", "").trim().toLowerCase();
       String? id = (name == "anagh") ? "AN-01" : (name == "aryaman" ? "AR-02" : (name == "krish" ? "KR-03" : null));
-      if (id != null) { _saveIdentity(id); setState(() => logs.add("[SYS] Identity: \$id")); }
+      if (id != null) { 
+        _saveIdentity(id); 
+        setState(() => logs.add("[SYS] Identity: $id")); // Corrected: removed backslash
+      }
     }
     else if (cmd == "sudo --access") {
-      if (myNodeID != null) setState(() { logs.add("Pass for \$myNodeID:"); isWaitingForPass = true; });
+      if (myNodeID != null) {
+        setState(() { 
+          logs.add("Pass for $myNodeID:"); // Corrected: removed backslash
+          isWaitingForPass = true; 
+        });
+      }
     }
     else if (cmd == "clear") { setState(() => logs = ["Buffer Flushed."]); }
     else if (isAuthenticated) { _sendChat(cmd); }
-    
+
     _controller.clear();
     _focusNode.requestFocus();
   }
@@ -248,7 +246,8 @@ class _TerminalChatUIState extends State<TerminalChatUI> {
                   if (isAuthenticated)
                     ...chatDocs.map((doc) {
                       Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-                      return Text("[\${data['node']}] >> \${data['text']}", style: const TextStyle(color: Colors.greenAccent, fontFamily: 'monospace', fontSize: 12));
+                      // Corrected: proper interpolation for node and text
+                      return Text("[${data['node']}] >> ${data['text']}", style: const TextStyle(color: Colors.greenAccent, fontFamily: 'monospace', fontSize: 12));
                     }),
                 ],
               );
@@ -262,7 +261,8 @@ class _TerminalChatUIState extends State<TerminalChatUI> {
           autofocus: true,
           style: const TextStyle(color: Colors.white, fontFamily: 'monospace', fontSize: 13),
           decoration: InputDecoration(
-            prefixText: "\${myNodeID ?? 'guest'}@anther:~\$ ",
+            // Corrected: using the literal '$' correctly at the end of the prompt
+            prefixText: "${myNodeID ?? 'guest'}@anther:~\$ ", 
             prefixStyle: const TextStyle(color: Colors.greenAccent),
             border: InputBorder.none,
             contentPadding: const EdgeInsets.all(15),
