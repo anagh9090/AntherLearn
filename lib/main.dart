@@ -116,6 +116,7 @@ class _AntherAcademyUIState extends State<AntherAcademyUI> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             const Text("ACADEMY", style: TextStyle(color: Colors.white24, fontSize: 10)),
+            const Text("By Anagh Barnwal - Class 7th B", style: TextStyle(color: Colors.white30, fontSize: 8)),
             Text("CH ${currentPage + 1}/${lessons.length}", style: const TextStyle(color: Colors.white24, fontSize: 10)),
           ]),
           const SizedBox(height: 30),
