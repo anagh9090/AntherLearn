@@ -168,7 +168,7 @@ class _TerminalChatUIState extends State<TerminalChatUI> {
   bool isWaitingForPass = false;
   String? myNodeID;
 
-  final Map<String, String> userKeys = {"AN-01": "anther12", "AR-02": "arya99", "KR-03": "krish00"};
+  final Map<String, String> userKeys = {"AN-01": "anther12", "AR-02": "arya99", "KR-03": "krish00", "AD-04": "aditi67"};
 
   @override
   void initState() {
@@ -194,7 +194,7 @@ class _TerminalChatUIState extends State<TerminalChatUI> {
     }
     else if (cmd.startsWith("set-alias ")) {
       String name = cmd.replaceFirst("set-alias ", "").trim().toLowerCase();
-      String? id = (name == "anagh") ? "AN-01" : (name == "aryaman" ? "AR-02" : (name == "krish" ? "KR-03" : null));
+      String? id = (name == "anagh") ? "AN-01" : (name == "aditya") ? "AD-04" : (name == "aryaman" ? "AR-02" : (name == "krish" ? "KR-03" : null));
       if (id != null) { 
         _saveIdentity(id); 
         setState(() => logs.add("[SYS] Identity: $id")); // Corrected: removed backslash
